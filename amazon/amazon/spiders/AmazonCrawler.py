@@ -22,3 +22,16 @@ class AmazonSpider(scrapy.Spider):
         next_page = response.xpath("//a[contains(@class, 's-pagination-next')]/@href").get()
         if next_page:
             yield response.follow(url=next_page, callback=self.parse)
+
+    def parse_product_details(self, response):
+        item = AmazonItem()
+        
+        item['page_count'] = response.xpath('//span[contains(text(),"Print length")]/following-sibling::span/text()').get(default='')
+        item['language'] = response.xpath('//span[contains(text(),"Language")]/following-sibling::span/text()').get(default='')
+        item['publisher_name'] = response.xpath('//*[@id="detailBullets_feature_div"]/ul/li[2]/span/span[2]/text()').get(default='').strip()
+        item['review_name'] = response.xpath('//div[3]/div/div[1]/div/div/div[1]/a/div[2]/span/text()').get(default='').strip()
+        item['review_rating'] = response.xpath('//div[1]/div/div/div[2]/a/i/span/text()').get(default='').strip()
+        item['review_comment'] = response.xpath('//div/div[1]/div/div/div[2]/a/span[2]/text()').get(default='').strip()
+        item['review_date'] = response.xpath('//div/div/div[3]/div[3]/div/div[1]/div/div/span/text()').get(default='').strip()
+
+        yield item
