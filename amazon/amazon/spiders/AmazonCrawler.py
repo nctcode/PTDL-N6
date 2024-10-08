@@ -25,7 +25,14 @@ class AmazonSpider(scrapy.Spider):
 
     def parse_product_details(self, response):
         item = AmazonItem()
-        
+        item['productid'] = response.xpath('//span[contains(text(),"ASIN")]/following-sibling::span/text()').get(default='').strip()
+        item['title'] = response.xpath('//span[@id="productTitle"]/text()').get(default='').strip()
+        item['author'] = response.xpath('//span[@class="author notFaded"]//a/text()').get(default='').strip()
+        item['publication_date'] = response.xpath('//span[contains(text(),"Publication date")]/following-sibling::span/text()').get(default='')
+        item['old_price'] = response.xpath('//*[@id="basis-price"]/text()').get(default='').strip()
+        item['new_price'] = response.xpath('//span[@id="kindle-price"]/text()').get(default='').strip()
+        item['rating'] = response.xpath('//*[@id="acrPopover"]/span/a/span/text()').get(default='').strip()
+        item['reviews'] = response.xpath('//span[@id="acrCustomerReviewText"]/text()').get(default='').strip()
         item['page_count'] = response.xpath('//span[contains(text(),"Print length")]/following-sibling::span/text()').get(default='')
         item['language'] = response.xpath('//span[contains(text(),"Language")]/following-sibling::span/text()').get(default='')
         item['publisher_name'] = response.xpath('//*[@id="detailBullets_feature_div"]/ul/li[2]/span/span[2]/text()').get(default='').strip()
