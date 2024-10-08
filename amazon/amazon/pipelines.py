@@ -13,6 +13,29 @@ import json
 from scrapy.exceptions import DropItem
 import csv
 import os
+class MongoDBAmazonPipeline:
+    def __init__(self):
+        # connection String
+        self.client = pymongo.MongoClient('mongodb://localhost:27017')
+        self.db = self.client['dbmycrawler'] # Create Database      
+        pass
+    
+    def process_item(self, item, spider):
+        
+        collection =self.db['tblamazon'] # Create Colecction or Table
+        try:
+            collection.insert_one(dict(item))
+            return item
+        except Exception as e:
+            raise DropItem(f"Error inserting item: {e}")       
+        pass   
+
+class JsonDBAmazonPipeline:
+    def process_item(self, item, spider):
+        with open('amazon.json', 'a', encoding='utf-8') as file:
+            line = json.dumps(dict(item), ensure_ascii=False) + '\n'
+            file.write(line)
+        return item
 
 class CSVDBAmazonPipeline:
     def process_item(self, item, spider):
