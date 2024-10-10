@@ -49,3 +49,8 @@ publishers_df = pd.read_sql('SELECT publisher_id, publisher_name FROM publishers
 merged_df = df.merge(publishers_df, left_on='publisher_id', right_on='publisher_id', how='left')  # Gộp để thêm publisher_id
 products_df = merged_df[['productid', 'title', 'author', 'publication_date', 'old_price', 'new_price', 'rating', 'reviews', 'page_count', 'language', 'publisher_id']]  # Chọn các cột cần thiết để tạo DataFrame cho bảng products
 products_df.to_sql('products', engine, if_exists='append', index=False)  # Đưa dữ liệu vào bảng products trong cơ sở dữ liệu
+
+products_df = pd.read_sql('SELECT productid, title FROM products', engine)  # Lấy lại thông tin sản phẩm từ cơ sở dữ liệu bao gồm productid và title
+merged_df = df.merge(products_df, left_on='productid', right_on='productid', how='left')  # Gộp DataFrame ban đầu với DataFrame sản phẩm để lấy thông tin đánh giá
+reviews_df = merged_df[['productid', 'review_name', 'review_rating', 'review_comment', 'review_date']]  # Chọn các cột cần thiết để tạo DataFrame cho bảng reviews
+reviews_df.to_sql('reviews', engine, if_exists='append', index=False)  # Đưa dữ liệu vào bảng reviews trong cơ sở dữ liệu
