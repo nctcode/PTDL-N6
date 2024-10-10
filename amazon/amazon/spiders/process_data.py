@@ -42,3 +42,10 @@ engine = create_engine(f'postgresql://{postgres_user}:{postgres_password}@{postg
 
 publishers_df = df[['publisher_name']].drop_duplicates()  # Tạo DataFrame chỉ chứa tên nhà xuất bản và loại bỏ các dòng trùng lặp
 publishers_df.to_sql('publishers', engine, if_exists='append', index=False)  # Đưa dữ liệu vào bảng publishers trong cơ sở dữ liệu
+
+publishers_with_id_df = pd.read_sql('SELECT publisher_id, publisher_name FROM publishers', engine)  # Chọn bảng products
+df = df.merge(publishers_with_id_df, on='publisher_name', how='left')  # Kết hợp với publisher_id
+publishers_df = pd.read_sql('SELECT publisher_id, publisher_name FROM publishers', engine)  # Lấy dữ liệu từ bảng publishers
+merged_df = df.merge(publishers_df, left_on='publisher_id', right_on='publisher_id', how='left')  # Gộp để thêm publisher_id
+products_df = merged_df[['productid', 'title', 'author', 'publication_date', 'old_price', 'new_price', 'rating', 'reviews', 'page_count', 'language', 'publisher_id']]  # Chọn các cột cần thiết để tạo DataFrame cho bảng products
+products_df.to_sql('products', engine, if_exists='append', index=False)  # Đưa dữ liệu vào bảng products trong cơ sở dữ liệu
