@@ -39,3 +39,6 @@ postgres_db = 'AmazonBook'  # Tên cơ sở dữ liệu PostgreSQL mà bạn mu�
 
 # Tạo chuỗi kết nối đến cơ sở dữ liệu PostgreSQL
 engine = create_engine(f'postgresql://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}')
+
+publishers_df = df[['publisher_name']].drop_duplicates()  # Tạo DataFrame chỉ chứa tên nhà xuất bản và loại bỏ các dòng trùng lặp
+publishers_df.to_sql('publishers', engine, if_exists='append', index=False)  # Đưa dữ liệu vào bảng publishers trong cơ sở dữ liệu
