@@ -30,3 +30,12 @@ df['review_date'] = pd.to_datetime(df['review_date'], format='%B %d, %Y', errors
 df.replace("", np.nan, inplace=True)
 df.replace(" ", np.nan, inplace=True)
 df.dropna()
+
+postgres_user = 'postgres'  # Tên người dùng PostgreSQL, thường là 'postgres'
+postgres_password = '12345'  # Mật khẩu của bạn cho PostgreSQL
+postgres_host = 'localhost'  # Địa chỉ máy chủ PostgreSQL, thường là 'localhost' nếu chạy trên máy cá nhân
+postgres_port = '5432'  # Cổng mặc định của PostgreSQL là 5432
+postgres_db = 'AmazonBook'  # Tên cơ sở dữ liệu PostgreSQL mà bạn muốn kết nối
+
+# Tạo chuỗi kết nối đến cơ sở dữ liệu PostgreSQL
+engine = create_engine(f'postgresql://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}')
