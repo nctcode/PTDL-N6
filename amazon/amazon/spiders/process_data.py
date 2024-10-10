@@ -18,4 +18,9 @@ df['publication_date'] = pd.to_datetime(df['publication_date'], format='%B %d, %
 df['old_price'] = df['old_price'].str.replace('$', '', regex=False).astype(float) # Loại bỏ ký tự '$' khỏi giá mới nếu giá đó là chuỗi
 df['new_price'] = df['new_price'].str.replace('$', '', regex=False).astype(float) 
 
+df['page_count'] = df['page_count'].str.replace(' pages', '', regex=True)  # Loại bỏ chuỗi ' pages' khỏi số lượng trang
+df['reviews'] = df['reviews'].str.replace(',', '', regex=True)  # Loại bỏ dấu ',' trong số lượng đánh giá
+df['reviews'] = df['reviews'].astype(int)  # Chuyển đổi reviews thành kiểu int
+df = df.drop_duplicates(subset=['productid'], keep='first')  # Loại bỏ các dòng trùng lặp dựa trên productid
+
 
