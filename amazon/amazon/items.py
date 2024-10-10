@@ -7,6 +7,18 @@ import scrapy
 
 
 class AmazonItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    productid = scrapy.Field()
+    title = scrapy.Field()
+    author = scrapy.Field()
+    publication_date = scrapy.Field()
+    old_price = scrapy.Field()
+    new_price = scrapy.Field()
+    rating = scrapy.Field()
+    reviews = scrapy.Field()
+    page_count = scrapy.Field()
+    language = scrapy.Field()
+    publisher_name = scrapy.Field()
+    review_name = scrapy.Field()
+    review_rating = scrapy.Field()
+    review_comment = scrapy.Field()
+    review_date = scrapy.Field()
