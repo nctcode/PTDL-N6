@@ -23,4 +23,10 @@ df['reviews'] = df['reviews'].str.replace(',', '', regex=True)  # Loại bỏ d�
 df['reviews'] = df['reviews'].astype(int)  # Chuyển đổi reviews thành kiểu int
 df = df.drop_duplicates(subset=['productid'], keep='first')  # Loại bỏ các dòng trùng lặp dựa trên productid
 
-
+df['publisher_name'] = df['publisher_name'].str.split(r'[:;()]').str[0]
+df['review_rating'] = df['review_rating'].str.split('out').str[0]
+df['review_date'] = df['review_date'].str.split('on').str[1].str.strip()
+df['review_date'] = pd.to_datetime(df['review_date'], format='%B %d, %Y', errors='coerce')
+df.replace("", np.nan, inplace=True)
+df.replace(" ", np.nan, inplace=True)
+df.dropna()
