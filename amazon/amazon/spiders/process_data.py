@@ -11,3 +11,11 @@ db = client['dbmycrawler']
 collection = db['tblamazon']
 data = list(collection.find())
 df = pd.DataFrame(data)
+
+# Xử lý dữ liệu
+df['title'] = df['title'].str.split(r'[:(]').str[0] # Chia tách tiêu đề để loại bỏ phần mô tả sau dấu ':' hoặc '('
+df['publication_date'] = pd.to_datetime(df['publication_date'], format='%B %d, %Y', errors='coerce') # Chuyển đổi ngày xuất bản sang định dạng datetime
+df['old_price'] = df['old_price'].str.replace('$', '', regex=False).astype(float) # Loại bỏ ký tự '$' khỏi giá mới nếu giá đó là chuỗi
+df['new_price'] = df['new_price'].str.replace('$', '', regex=False).astype(float) 
+
+
