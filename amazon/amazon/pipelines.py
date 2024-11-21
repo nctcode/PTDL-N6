@@ -22,7 +22,7 @@ class MongoDBAmazonPipeline:
     
     def process_item(self, item, spider):
         
-        collection =self.db['tblamazon'] # Create Colecction or Table
+        collection =self.db['tblamazon1'] # Create Colecction or Table
         try:
             collection.insert_one(dict(item))
             return item
@@ -32,14 +32,13 @@ class MongoDBAmazonPipeline:
 
 class JsonDBAmazonPipeline:
     def process_item(self, item, spider):
-        with open('amazon.json', 'a', encoding='utf-8') as file:
+        with open('amazon1amazon1.json', 'a', encoding='utf-8') as file:
             line = json.dumps(dict(item), ensure_ascii=False) + '\n'
             file.write(line)
         return item
 
 class CSVDBAmazonPipeline:
-    def process_item(self, item, spider):
-        with open('amazon.csv', 'a', encoding='utf-8', newline='') as file:
+    def process_item(selfamazon1.csv', 'a', encoding='utf-8', newline='') as file:
             writer = csv.writer(file, delimiter='$')
             writer.writerow([
                 item['productid'], 
