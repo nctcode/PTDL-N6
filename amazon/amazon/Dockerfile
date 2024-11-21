@@ -1,4 +1,3 @@
-
 FROM python:3.10-slim
 
 # Thiết lập thư mục làm việc
@@ -14,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Chạy tệp Python chính của bạn
-CMD ["python", "spiders/process_data.py"]
+CMD ["python", "spiders/processData.py"]
